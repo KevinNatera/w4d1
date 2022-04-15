@@ -22,6 +22,22 @@ class KnightPathFinder
         newConsideredPositions
        
     end
+    def build_move_tree(last_pos)
+        #array = []
+        queue = [@rootNode]
+        while !queue.empty?
+        queue.each do |start_move|
+            queue += new_move_position(start_move)
+            # array = queue[0] if 
+            return start_move if queue[0] == last_pos
+            
+            queue.shift
+        end
+        end
+
+
+
+    end
 
 
     def self.valid_moves(pos)
@@ -43,6 +59,6 @@ end
 
 k = KnightPathFinder.new 
 
- k.new_move_position([0,0])
+ p k.build_move_tree([4,8])
 
- p k
+ 
