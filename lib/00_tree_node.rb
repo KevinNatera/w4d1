@@ -42,5 +42,25 @@ class PolyTreeNode
             raise "Error"
         end
     end
-
+    def dfs(target_value)
+        #debugger
+        return self if @value == target_value
+        @children.each do |child|
+            dfs_child = child.dfs(target_value)
+            return dfs_child if dfs_child != nil
+        end
+        nil
+    end
+    def bfs(target_value)
+        arr = [self]
+        while !arr.empty?
+            if arr[0].value ==target_value
+                return arr[0]
+            end
+            arr += arr[0].children
+            arr.shift
+        end
+    end
 end
+
+
