@@ -1,4 +1,4 @@
-#require 'byebug'
+require 'byebug'
 require_relative "Node"
 class KnightPathFinder
     attr_reader :consideredPositions
@@ -27,12 +27,12 @@ class KnightPathFinder
         queue = [@rootNode]
         while !queue.empty?
         queue.each do |start_move|
-            puts start_move.value
-            puts 
+            #debugger
+            
             children = new_move_position(start_move)
-            p children
-            children.map! {|child| child.parent=start_move}
-            children.each {|child| start_move.add_child(child)}
+           
+            children_with_parent = children.map {|child| child.parent=start_move}
+            children_with_parent.each {|child| start_move.add_child(child)}
             queue += children
             
             # array = queue[0] if 
