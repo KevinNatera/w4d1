@@ -9,7 +9,7 @@ class Node
 
 
     def parent=(parent_node)
-        # debugger
+        
         return if parent == parent_node
         if @parent != nil 
         old_parent = self.parent 
@@ -43,7 +43,7 @@ class Node
         end
     end
     def dfs(target_value)
-        #debugger
+        
         return self if @value == target_value
         @children.each do |child|
             dfs_child = child.dfs(target_value)
