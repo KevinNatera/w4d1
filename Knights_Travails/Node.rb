@@ -10,6 +10,7 @@ class Node
 
     def parent=(parent_node)
         # debugger
+        return if parent == parent_node
         if @parent != nil 
         old_parent = self.parent 
         old_parent.children.delete(self)
@@ -29,6 +30,7 @@ class Node
          if !@children.include?(child_node)
         @children << child_node_with_parent
         end
+      
     end
 
 
@@ -52,7 +54,7 @@ class Node
     def bfs(target_value)
         arr = [self]
         while !arr.empty?
-            if arr[0].value ==target_value
+            if arr[0].value == target_value
                 return arr[0]
             end
             arr += arr[0].children
