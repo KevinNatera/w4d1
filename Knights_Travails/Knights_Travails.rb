@@ -1,25 +1,25 @@
-require 'byebug'
-
+#require 'byebug'
+require_relative "Node"
 class KnightPathFinder
     attr_reader :consideredPositions
 
     def initialize()
-        @rootNode = [0,0]
+        @rootNode = Node.new([0,0])
         @consideredPositions = [@rootNode]
     end
 
 
-    def new_move_position(pos)
+    def new_move_position(node)
         newConsideredPositions = []
             # debugger
-        KnightPathFinder.valid_moves(pos).each do |move|
+        KnightPathFinder.valid_moves(node).each do |move|
 
-           if !@consideredPositions.include?(move) && !newConsideredPositions.include?(move) 
-                newConsideredPositions << move
+           if !@consideredPositions.include?(move.value) && !newConsideredPositions.include?(move.value) 
+                newConsideredPositions << move.value
            end
        end
        @consideredPositions += newConsideredPositions
-        newConsideredPositions
+        newConsideredPositions.map{|ele| Node.new(ele)}
        
     end
     def build_move_tree(last_pos)
@@ -27,9 +27,16 @@ class KnightPathFinder
         queue = [@rootNode]
         while !queue.empty?
         queue.each do |start_move|
-            queue += new_move_position(start_move)
+            puts start_move.value
+            puts 
+            children = new_move_position(start_move)
+            p children
+            children.map! {|child| child.parent=start_move}
+            children.each {|child| start_move.add_child(child)}
+            queue += children
+            
             # array = queue[0] if 
-            return start_move if queue[0] == last_pos
+            return start_move if queue[0].value == last_pos
             
             queue.shift
         end
@@ -40,13 +47,13 @@ class KnightPathFinder
     end
 
 
-    def self.valid_moves(pos)
-        x = pos[0]
-        y = pos[1]
+    def self.valid_moves(node)
+        x = node.value[0]
+        y = node.value[1]
 
         moveArr = [[x + 2, y + 1] , [x + 1, y + 2] , [ x - 2, y - 1] , [x - 1, y - 2] ,[x - 2, y + 1] , [x - 1, y + 2] ,[x + 1, y - 2] , [x + 2 , y - 1] ] 
 
-        moveArr
+        moveArr.map {|move| Node.new(move)}
     end
 
     def self.build_move_tree
